@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        *{
+            padding: 0;
+            margin: 30px;
+        }
+        canvas {
+            background: #eee;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="400" height="500"></canvas>
+    <script>
+        //boxid 從上往下
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var brickX = 0, brickY = 0, brickWidth = 25, brickHeight = 25, brickSize = 25;
+        var topPressed = false, downPressed = false, rightPressed = false, leftPressed = false, spacePressed = false;
+        var box = [], boxid = 0;
+        var nowbrick = rand();
+        var color = "";
+        var dy = 0, dx = 0;
+        var shape;
+        var time = 0;
+        shapeArray();
+
+        for (boxid = 0; boxid < 200; boxid++) {
+            box[boxid] = { id: boxid, color: "", bool: false };
+        }
+
+        //畫出背景與被紀錄的方塊
+        function background() { 
+            for (boxid = 0; boxid < 200; boxid++) {
+                if (box[boxid].bool === false) {
+                    if ((Math.floor(boxid / 10) + boxid % 10) % 2 === 0) {
+                        ctx.beginPath();
+                        ctx.rect((box[boxid].id % 10) * brickWidth, Math.floor((box[boxid].id / 10)) * brickHeight, brickWidth, brickHeight);
+                        ctx.fillStyle = "rgba(47, 47, 47, 44)";
+                        ctx.fill();
+                        ctx.closePath();
+                    }
+                    else if ((Math.floor(boxid / 10) + boxid % 10) % 2 === 1) {
+                        ctx.beginPath();
+                        ctx.rect((box[boxid].id % 10) * brickWidth, Math.floor((box[boxid].id / 10)) * brickHeight, brickWidth, brickHeight);
+                        ctx.fillStyle = "rgba(43, 43, 43, 40)";
+                        ctx.fill();
+                        ctx.closePath();
+                    }
+                }
+                else if (box[boxid].bool === true) {
+                    ctx.beginPath();
+                    ctx.rect((box[boxid].id % 10) * brickWidth, Math.floor((box[boxid].id / 10)) * brickHeight, brickWidth, brickHeight);
+                    ctx.fillStyle = box[boxid].color;
+                    ctx.fill();
+                    ctx.closePath();
+                }
+                boxline((box[boxid].id % 10) * brickWidth, Math.floor((box[boxid].id / 10)) * brickHeight, brickWidth, brickHeight);
+            }
+            brickX = 75;
+            brickY = -50;
+        }
+
+        function shapeArray() {
+            if (nowbrick === 0) {
+                shape = [[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]];
+                color = "yellow";
+            }
+            else if (nowbrick === 1) {
+                shape = [[0, 0, 0, 0], [0, 0, 1, 1], [0, 1, 1, 0], [0, 0, 0, 0]];
+                color = "blue";
+            }
+            else if (nowbrick === 2) {
+                shape = [[0, 0, 0, 0], [0, 1, 1, 0], [0, 0, 1, 1], [0, 0, 0, 0]];
+                color = "orange";
+            }
+            else if (nowbrick === 3) {
+                shape = [[0, 0, 0, 0], [0, 1, 0, 0], [0, 1, 1, 1], [0, 0, 0, 0]];
+                color = "red";
+            }
+            else if (nowbrick === 4) {
+                shape = [[0, 0, 0, 0], [0, 0, 0, 1], [0, 1, 1, 1], [0, 0, 0, 0]];
+                color = "green";
+            }
+            else if (nowbrick === 5) {
+                shape = [[0, 0, 0, 0], [0, 0, 1, 0], [0, 1, 1, 1], [0, 0, 0, 0]];
+                color = "purple";
+            }
+            else if (nowbrick === 6) {
+                shape = [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]];
+                color = "gray";
+            }
+        }
+
+        function boxdraw() {
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (shape[i][j] === 1) {
+                        ctx.beginPath();
+                        ctx.rect(brickX + j * brickWidth + dx, brickY + i * brickHeight + dy, brickWidth, brickHeight);
+                        ctx.fillStyle = color;
+                        ctx.fill();
+                        ctx.closePath();
+                        boxline(brickX + j * brickWidth + dx, brickY + i * brickHeight + dy, brickWidth, brickHeight);
+                    }
+                }
+            }
+        }
+
+        function boxline(brickX, brickY, brickWidth, brickHeight) {
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.strokeStyle = "rgba(33,33,33,31)";
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        function rand() {
+            var rand = 0;
+            rand = Math.random() * 6.9;
+            rand = parseInt(rand);
+            rand = Math.floor(rand);
+            return rand;
+        }
+
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+        function keyDownHandler(e) {
+            if (e.keyCode == 39)
+                rightPressed = true;
+            else if (e.keyCode == 38)
+                topPressed = true;
+            else if (e.keyCode == 37)
+                leftPressed = true;
+            else if (e.keyCode == 40)
+                downPressed = true;
+            else if (e.keyCode == 32)
+                spacePressed = true;
+        }
+        function keyUpHandler(e) {
+            if (e.keyCode == 39)
+                rightPressed = false;
+            else if (e.keyCode == 38)
+                topPressed = false;
+            else if (e.keyCode == 37)
+                leftPressed = false;
+            else if (e.keyCode == 40)
+                downPressed = false;
+            else if (e.keyCode == 32)
+                spacePressed = false;
+        }
+
+        function transpose(a) {
+            var n = [];
+            for (var g = 0; g < a[0].length; g++)
+                n[g] = [];
+
+            for (var i = 0; i < a[0].length; i++) {
+                var line = "";
+                for (var j = 0; j < a.length; j++) {
+                    n[i][3 - j] = a[j][i];
+                }
+            }
+            return n;
+        }
+
+        function boundaryleft() {
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (shape[i][j] === 1) {
+                        if (brickX + j * brickWidth + dx <= 0) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            for (boxid = 0; boxid < 200; boxid++) {
+                if (box[boxid].bool) {
+                    for (var k = 0; k < 4; k++) {
+                        for (var m = 0; m < 4; m++) {
+                            if (shape[k][m] === 1) {
+                                if (
+                                    brickX + m * brickWidth + dx === (box[boxid].id % 10) * 25 + 25 &&
+                                    (Math.floor(box[boxid].id / 10) * 25 - 25 < brickY + k * brickHeight + dy &&
+                                        brickY + k * brickHeight + dy < Math.floor(box[boxid].id / 10) * 25 + 25)
+                                ) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        function boundarydown() {
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (shape[i][j] === 1) {
+                        if (brickY + i * brickHeight + dy >= 475) {
+                            dy = 475 - brickY - i * brickHeight
+                            return false;
+                        }
+                    }
+                }
+            }
+            for (boxid = 0; boxid < 200; boxid++) {
+                if (box[boxid].bool) {
+                    for (var k = 0; k < 4; k++) {
+                        for (var m = 0; m < 4; m++) {
+                            if (shape[k][m] === 1) {
+                                if (
+                                    (brickX + m * brickWidth + dx === (box[boxid].id % 10) * 25) &&
+                                    (brickY + k * brickHeight + dy < Math.floor(box[boxid].id / 10) * 25 &&
+                                        Math.floor(box[boxid].id / 10) * 25 <= brickY + k * brickHeight + dy + 25)
+                                ) {
+                                    dy = Math.floor(box[boxid].id / 10) * 25 - brickY - k * brickHeight - 25
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        function boundaryright() {
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (shape[i][j] === 1) {
+                        if (brickX + j * brickWidth + dx >= 225) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            for (boxid = 0; boxid < 200; boxid++) {
+                if (box[boxid].bool) {
+                    for (var k = 0; k < 4; k++) {
+                        for (var m = 0; m < 4; m++) {
+                            if (shape[k][m] === 1) {
+                                if (
+                                    brickX + m * brickWidth + dx === (box[boxid].id % 10) * 25 - 25 &&
+                                    (Math.floor(box[boxid].id / 10) * 25 - 25 < brickY + k * brickHeight + dy &&
+                                        brickY + k * brickHeight + dy < Math.floor(box[boxid].id / 10) * 25 + 25)
+                                ) {
+                                    console.log("false");
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        function control() {
+            if (boundarydown()) {
+                dy += 5;
+            }
+            if (downPressed && boundarydown()) {
+                dy += 25;
+            }
+
+            else if (rightPressed && boundaryright()) {
+                dx += 25;
+            }
+            else if (leftPressed && boundaryleft()) {
+                dx -= 25;
+            }
+            else if (spacePressed) {
+                shape = transpose(shape);
+            }
+            if (topPressed)
+                dy -= 25;
+
+
+
+        }
+        function recordBox() {
+            var num = 0;
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    if (shape[i][j] === 1) {
+                        num = Math.floor((brickY + i * brickHeight + dy) / 25) * 10 + Math.floor((brickX + j * brickWidth + dx) / 25);
+                        box[num] = { id: num, color: color, bool: true };
+                    }
+                }
+            }
+        }
+        function newbrick() {
+            if (!boundarydown())
+                time++;
+            if (time === 5) {
+                recordBox();
+                nowbrick = rand();
+                shapeArray();
+                dx = 0;
+                dy = 0;
+                time = 0;
+            }
+        }
+        function deleteRow() {
+            var num = 0;
+            for (var num1 = 0; num1 < 20; num1++) {
+                for (var num2 = 0; num2 < 9; num2++) {
+                    if (box[num1 * 10 + num2].bool === true) {
+                        if (box[num1 * 10 + num2].bool === box[num1 * 10 + num2 + 1].bool) {
+                            num++;
+                            if (num === 9) {
+                            }
+                        }
+                    }
+                }
+                if (num === 9) {
+                    for (var num3 = 0; num3 < 10; num3++) {
+                        for (var num4 = num1; num4 >= 0; num4--) {
+                            box[num4 * 10 + num3] = box[num4 * 10 + num3 - 10];
+                        }
+                    }
+                    for (boxid = 0; boxid < 10; boxid++) {
+                        box[boxid] = { id: boxid, color: "", bool: false };
+                    }
+                    for (var num5 = 0; num5 < 200; num5++) {
+                        box[num5].id = num5;
+                    }
+
+                }
+                num = 0;
+            }
+        }
+        function lose() {
+            if (box[4].bool || box[5].bool) {
+                for (boxid = 0; boxid < 200; boxid++) {
+                    box[boxid] = { id: boxid, color: "", bool: false };
+                }
+                alert("game over");
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            background();
+            boxdraw();
+            control();
+            newbrick();
+            deleteRow();
+            lose();
+        }
+        setInterval(draw, 90);
+    </script>
+</body>
+
+</html>

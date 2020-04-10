@@ -1,0 +1,199 @@
+/* 螢幕大小變更 */
+   @media (max-width: 767.98px) {
+        .container-fluid {
+            width: 100%;
+        }
+        #video {
+            display: none;
+        }
+        #compfooter{
+            display: none;
+        }
+        .lead{
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .img-responsive{
+            width: 30%;
+            height: 30%;
+            margin: 0 auto;
+        }
+    }
+    @media (min-width: 767.98px) and (max-width: 991.8px) {
+        .container-fluid {
+            width: 90%;
+        }
+        #compfooter{
+            display: none;
+        }
+    }
+    @media (min-width: 992px) and (max-width: 1199.8px) {
+        .container-fluid {
+            width: 90%;
+        }
+        #phonefooter{
+            display: none;
+        }
+    }
+    @media (min-width: 1200px) {
+        .container-fluid {
+            width: 80%;
+        }
+        #phonefooter{
+            display: none;
+        }
+    }
+    .hr-line {
+        margin-top: 0px;
+        padding-bottom: 20px;
+        max-width: 140px;
+        border-top: black 3px solid;
+    }
+
+/* 選單列 */
+    .navbar {
+        margin: 0%;
+    }
+
+    .navbar-default {
+        border-color: white;
+        background-color: white;
+    }
+
+    .navbar-nav>li>a {
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+
+/* 首頁 */
+    #jumb {
+        color: white;
+        background: rgb(2, 2, 119) url(../img-bootstrap/212112.PNG) center bottom no-repeat;
+        background-size: cover;
+        opacity: 0.8;
+        margin: 0%;
+    }
+
+    #jumb .embed-responsive {
+        background-color: #4a4a4a;
+        box-shadow: rgba(0, 0, 0, 0.8) 0 8px 33px 0;
+    }
+
+    #jumb p {
+        font-size: 21px;
+    }
+/* 個人介紹 */
+    #Introduction {
+        padding: 40px;
+        font-family:Microsoft JhengHei;
+    }
+    #Introduction p {
+        font-size: 15px;
+    }
+
+/* 個人作品 */
+    #works {
+        padding: 40px;
+        background-color: cadetblue;
+        background-image: url(../img-bootstrap/images.jpg);
+        font-family:Microsoft JhengHei;
+    }
+    #works .text-center{
+        font-size: 38px;
+        font-weight:bold;
+    }
+    #works .thumbnail {
+        padding: 3px;
+        border: none;
+        border-radius: 0px;
+        background-color: rgba(0, 0, 0, 0.719);
+        box-shadow: rgba(0, 0, 0, 0.8);
+    }
+
+    .thumbnail>img {
+        width: 100%;
+    }
+/* 個人技能 */
+    #skill {
+        padding: 40px;
+        font-family:Microsoft JhengHei;
+    }
+    #skill .text-center{
+        font-size: 38px;
+        font-weight:bold;
+    }
+    .progress {
+        height: 35px;
+
+    }
+
+    .progress .skill {
+        font: normal 12px "Open Sans Web";
+        line-height: 35px;
+        padding: 0;
+        margin: 0 0 0 20px;
+        text-transform: uppercase;
+    }
+
+    .progress .skill .val {
+        float: right;
+        font-style: normal;
+        margin: 0 20px 0 0;
+    }
+
+    .progress-bar {
+        text-align: left;
+        transition-duration: 3s;
+    }
+
+    /* 尾頁 */
+    #compfooter{
+        font-family:Microsoft JhengHei;
+        background-color: #33383c;
+        padding: 30px 0px;
+    }
+
+    #compfooter ul li {
+        padding: 5px 0px;
+    }
+
+    .adress span,
+    .contact span,
+    .social span {
+        color: #FFF;
+        font-weight: 800;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        display: block;
+        text-transform: uppercase;
+        font-size: 20px;
+        letter-spacing: 3px;
+    }
+
+    .adress li p,
+    .contact li a,
+    .social li a {
+        color: #FFF;
+        letter-spacing: 2px;
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+    .adress,
+    .contact,
+    .social {
+        list-style: none;
+    }
+    #phonefooter #active{
+        background-color: #33383c;
+        border: black;
+        color: #FFF;
+    }
+    #phonefooter a{
+        color: #FFF;
+        text-decoration:none;
+    }
+    #demo1 button ,#demo2 button ,#demo3 button{
+        background-color: #33383cbb;
+        color: #FFF;
+    }
